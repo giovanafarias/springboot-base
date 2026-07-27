@@ -1,0 +1,50 @@
+services:
+
+  app:
+    image: maven:3.9.6-eclipse-temurin-21
+    container_name: spring_app
+    volumes:
+      - .:/app
+      - maven_cache:/root/.m2  # Armazena todas as dependências
+    working_dir: /app
+    ports:
+      - "18000:8080"
+    environment:
+      - SPRING_DATA_MONGODB_URI=mongodb://mongodb:27017/crud
+      - SPRING_DATA_MONGODB_HOST=mongodb
+      - SPRING_PROFILES_ACTIVE=dev
+      - SPRING_DOCKER_COMPOSE_ENABLED=false
+    # Executa o maven e monitora mudanças
+    command: mvn spring-boot:run -Dspring-boot.run.jvmArguments="-Dspring.devtools.restart.enabled=true"
+    depends_on:
+      mongodb:
+        condition: service_healthy
+
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+      - "18002:27017"
+    volumes:
+      - mongo_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand(\'ping\')"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  mongo-express:
+    image: mongo-express:latest
+    container_name: mongo_express
+    ports:
+      - "18001:8081"
+    environment:
+      - ME_CONFIG_MONGODB_SERVER=mongodb
+    depends_on:
+      mongodb:
+        condition: service_healthy
+
+volumes:
+  mongo_data:
+  maven_cache:
+

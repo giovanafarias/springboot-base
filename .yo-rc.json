@@ -1,0 +1,20 @@
+{
+  "generator-jhipster": {
+    "applicationType": "monolith",
+    "authenticationType": "jwt",
+    "baseName": "springapp",
+    "buildTool": "maven",
+    "clientFramework": "no",
+    "creationTimestamp": 1703158488886,
+    "databaseType": "mongodb",
+    "devDatabaseType": "mongodb",
+    "entities": [],
+    "jhipsterVersion": "9.2.0",
+    "jwtSecretKey": "YzNmM2E5MzliNDllOGFjOTk3NGY0OGE3MGUzY2IyYTRiZmRkZDY5OTc1NDQ3YTJhMmMwZWQxZThiY2U5ODA1YWM2MjhiZTFiMDllZjY4MWJmZjljNTU4NmRmYmM1MDc3YTFmN2Y3Yzc1NGMwYjdmZjI3MmM5YmQ4NWYyZGIwNWY=",
+    "languages": ["pt-br", "en"],
+    "nativeLanguage": "pt-br",
+    "packageName": "com.aula.springapp",
+    "prodDatabaseType": "mongodb",
+    "skipClient": true
+  }
+}

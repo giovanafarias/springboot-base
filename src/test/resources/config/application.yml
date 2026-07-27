@@ -1,0 +1,103 @@
+# ===================================================================
+# Spring Boot configuration.
+#
+# This configuration is used for unit/integration tests.
+#
+# More information on profiles: https://www.jhipster.tech/profiles/
+# More information on configuration properties: https://www.jhipster.tech/common-application-properties/
+# ===================================================================
+
+# ===================================================================
+# Standard Spring Boot properties.
+# Full reference is available at:
+# https://docs.spring.io/spring-boot/appendix/application-properties/index.html
+# ===================================================================
+
+mongock:
+  migration-scan-package:
+    - com.aula.springapp.config.dbmigrations
+  mongo-db:
+    read-concern: local
+    write-concern:
+      journal: false
+      w: 'majority'
+
+spring:
+  application:
+    name: springapp
+  jackson2:
+    serialization:
+      write-durations-as-timestamps: false
+  mail:
+    host: localhost
+  main:
+    allow-bean-definition-overriding: true
+  messages:
+    basename: i18n/messages
+  mongodb:
+    representation:
+      uuid: standard
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          authority-prefix: ''
+          authorities-claim-name: auth
+  task:
+    execution:
+      thread-name-prefix: springapp-task-
+      pool:
+        core-size: 1
+        max-size: 50
+        queue-capacity: 10000
+    scheduling:
+      thread-name-prefix: springapp-scheduling-
+      pool:
+        size: 20
+  thymeleaf:
+    mode: HTML
+
+server:
+  port: 10344
+  address: localhost
+
+# ===================================================================
+# JHipster specific properties
+#
+# Full reference is available at: https://www.jhipster.tech/common-application-properties/
+# ===================================================================
+jhipster:
+  mail:
+    from: springapp@localhost.com
+    base-url: http://127.0.0.1:8080
+  logging:
+    # To test json console appender
+    use-json-format: false
+    logstash:
+      enabled: false
+      host: localhost
+      port: 5000
+      ring-buffer-size: 512
+  security:
+    authentication:
+      jwt:
+        # This token must be encoded using Base64 (you can type `echo 'secret-key'|base64` on your command line)
+        base64-secret: YzNmM2E5MzliNDllOGFjOTk3NGY0OGE3MGUzY2IyYTRiZmRkZDY5OTc1NDQ3YTJhMmMwZWQxZThiY2U5ODA1YWM2MjhiZTFiMDllZjY4MWJmZjljNTU4NmRmYmM1MDc3YTFmN2Y3Yzc1NGMwYjdmZjI3MmM5YmQ4NWYyZGIwNWY=
+        # Token is valid 24 hours
+        token-validity-in-seconds: 86400
+        token-validity-in-seconds-for-remember-me: 86400
+
+# ===================================================================
+# Application specific properties
+# Add your own application properties here, see the ApplicationProperties class
+# to have type-safe configuration, like in the JHipsterProperties above
+#
+# More documentation is available at:
+# https://www.jhipster.tech/common-application-properties/
+# ===================================================================
+
+# application:
+management:
+  health:
+    mail:
+      enabled: false

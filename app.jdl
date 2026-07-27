@@ -1,0 +1,16 @@
+application {
+  config {
+    baseName springapp,
+    applicationType monolith,
+    packageName com.aula.springapp,
+    authenticationType jwt,
+    databaseType mongodb,
+    prodDatabaseType mongodb,
+    devDatabaseType mongodb,
+    buildTool maven,
+    clientFramework no,
+    nativeLanguage pt-br,
+    languages [pt-br, en]
+  }
+}
+
