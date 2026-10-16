@@ -1,0 +1,28 @@
+{
+  "annotations": {
+    "changelogDate": "20261016171218"
+  },
+  "applications": ["springapp"],
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "anoLetivo",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "name": "Matricula",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityField": "nome",
+      "otherEntityName": "aluno",
+      "otherEntityRelationshipName": "matricula",
+      "relationshipName": "aluno",
+      "relationshipSide": "right",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

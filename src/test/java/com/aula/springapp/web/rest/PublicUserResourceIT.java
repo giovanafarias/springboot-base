@@ -1,5 +1,6 @@
 package com.aula.springapp.web.rest;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -7,6 +8,7 @@ import com.aula.springapp.IntegrationTest;
 import com.aula.springapp.domain.User;
 import com.aula.springapp.repository.UserRepository;
 import com.aula.springapp.security.AuthoritiesConstants;
+import com.aula.springapp.service.UserService;
 import java.util.Objects;
 import java.util.Set;
 import org.junit.jupiter.api.AfterEach;
@@ -32,15 +34,20 @@ class PublicUserResourceIT {
     private UserRepository userRepository;
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
     private CacheManager cacheManager;
 
     @Autowired
     private MockMvc restUserMockMvc;
 
     private User user;
+    private Long numberOfUsers;
 
     @BeforeEach
     void initTest() {
+        numberOfUsers = userRepository.count();
         user = UserResourceIT.initTestUser();
     }
 
@@ -52,7 +59,9 @@ class PublicUserResourceIT {
             .map(cacheName -> this.cacheManager.getCache(cacheName))
             .filter(Objects::nonNull)
             .forEach(Cache::clear);
-        userRepository.deleteAll();
+        userService.deleteUser(user.getLogin());
+        assertThat(userRepository.count()).isEqualTo(numberOfUsers);
+        numberOfUsers = null;
     }
 
     @Test

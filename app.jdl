@@ -12,5 +12,39 @@ application {
     nativeLanguage pt-br,
     languages [pt-br, en]
   }
+  entities *
 }
 
+// Detalhes da Entidade Curso
+entity Curso {
+  nome String required,
+  duracao Integer required
+}
+
+// Detalhes da Entidade Disciplina
+entity Disciplina {
+  nome String required,
+  cargaHoraria Integer required
+}
+
+// Detalhes da Entidade Aluno
+entity Aluno {
+  nome String required
+}
+
+// Detalhes da Entidade Matricula
+entity Matricula {
+  anoLetivo Integer required
+}
+
+// Relacionamentos
+relationship OneToMany {
+  Curso{disciplina} to Disciplina{curso(nome)},
+  Curso{aluno} to Aluno{curso(nome)},
+  Aluno{matricula} to Matricula{aluno(nome)}
+}
+
+// Boas Práticas de Arquitetura
+dto * with mapstruct          
+service * with serviceImpl   
+paginate * with pagination

@@ -38,6 +38,19 @@ public class SecurityConfiguration {
             .authorizeHttpRequests(authz ->
                 // prettier-ignore
                 authz
+                    // LINHAS ADIOCIONADAS: 
+                    .requestMatchers("/api/cursos/**").permitAll()
+                    .requestMatchers("/api/disciplinas/**").permitAll()
+                    // -------------------
+                    // LINHAS RESTANTES (ALTERAR SE NECESSÁRIO)
+                    .requestMatchers("/api/**").authenticated()
+                    .requestMatchers("/v3/api-docs/**").permitAll()
+                    // LINHAS ADIOCIONADAS: 
+                    .requestMatchers("/swagger-ui/**").permitAll()
+                    .requestMatchers("/swagger-ui.html").permitAll()
+                    // ------------------
+                    // LINHAS RESTANTES 
+                    .requestMatchers("/management/health").permitAll()
                     .requestMatchers(HttpMethod.POST, "/api/authenticate").permitAll()
                     .requestMatchers(HttpMethod.GET, "/api/authenticate").permitAll()
                     .requestMatchers("/api/register").permitAll()
@@ -46,7 +59,7 @@ public class SecurityConfiguration {
                     .requestMatchers("/api/account/reset-password/finish").permitAll()
                     .requestMatchers("/api/admin/**").hasAuthority(AuthoritiesConstants.ADMIN)
                     .requestMatchers("/api/**").authenticated()
-                    .requestMatchers("/v3/api-docs/**").permitAll()
+                    .requestMatchers("/v3/api-docs/**").hasAuthority(AuthoritiesConstants.ADMIN)
                     .requestMatchers("/management/health").permitAll()
                     .requestMatchers("/management/health/**").permitAll()
                     .requestMatchers("/management/info").permitAll()

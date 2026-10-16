@@ -15,12 +15,12 @@ import com.aula.springapp.service.dto.AdminUserDTO;
 import com.aula.springapp.service.dto.PasswordChangeDTO;
 import com.aula.springapp.web.rest.vm.KeyAndPasswordVM;
 import com.aula.springapp.web.rest.vm.ManagedUserVM;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.Instant;
 import java.util.*;
 import java.util.stream.Stream;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -30,6 +30,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+import tools.jackson.databind.ObjectMapper;
 
 /**
  * Integration tests for the {@link AccountResource} REST controller.
@@ -58,9 +59,17 @@ class AccountResourceIT {
     @Autowired
     private MockMvc restAccountMockMvc;
 
+    private Long numberOfUsers;
+
+    @BeforeEach
+    void countUsers() {
+        numberOfUsers = userRepository.count();
+    }
+
     @AfterEach
-    void cleanupAndCheck() {
-        userRepository.deleteAll();
+    void checkUsers() {
+        assertThat(userRepository.count()).isEqualTo(numberOfUsers);
+        numberOfUsers = null;
     }
 
     @Test

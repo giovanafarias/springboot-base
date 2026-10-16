@@ -1,0 +1,39 @@
+{
+  "annotations": {
+    "changelogDate": "20261016171215"
+  },
+  "applications": ["springapp"],
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "nome",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "duracao",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "name": "Curso",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityName": "disciplina",
+      "otherEntityRelationshipName": "curso",
+      "relationshipName": "disciplina",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "aluno",
+      "otherEntityRelationshipName": "curso",
+      "relationshipName": "aluno",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

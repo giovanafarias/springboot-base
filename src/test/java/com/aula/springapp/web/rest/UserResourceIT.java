@@ -9,9 +9,9 @@ import com.aula.springapp.IntegrationTest;
 import com.aula.springapp.domain.User;
 import com.aula.springapp.repository.UserRepository;
 import com.aula.springapp.security.AuthoritiesConstants;
+import com.aula.springapp.service.UserService;
 import com.aula.springapp.service.dto.AdminUserDTO;
 import com.aula.springapp.service.mapper.UserMapper;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.*;
 import java.util.function.Consumer;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -25,6 +25,7 @@ import org.springframework.cache.CacheManager;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+import tools.jackson.databind.ObjectMapper;
 
 /**
  * Integration tests for the {@link UserResource} REST controller.
@@ -61,6 +62,9 @@ class UserResourceIT {
     private UserRepository userRepository;
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
     private UserMapper userMapper;
 
     @Autowired
@@ -70,6 +74,8 @@ class UserResourceIT {
     private MockMvc restUserMockMvc;
 
     private User user;
+
+    private Long numberOfUsers;
 
     /**
      * Create a User.
@@ -100,12 +106,18 @@ class UserResourceIT {
 
     @BeforeEach
     void initTest() {
+        numberOfUsers = userRepository.count();
         user = initTestUser();
     }
 
     @AfterEach
     void cleanupAndCheck() {
-        userRepository.deleteAll();
+        userService.deleteUser(DEFAULT_LOGIN);
+        userService.deleteUser(UPDATED_LOGIN);
+        userService.deleteUser(user.getLogin());
+        userService.deleteUser("anotherlogin");
+        assertThat(userRepository.count()).isEqualTo(numberOfUsers);
+        numberOfUsers = null;
         cacheManager
             .getCacheNames()
             .stream()

@@ -48,8 +48,11 @@ class UserServiceIT {
 
     private User user;
 
+    private Long numberOfUsers;
+
     @BeforeEach
     void init() {
+        numberOfUsers = userRepository.count();
         user = new User();
         user.setLogin(DEFAULT_LOGIN);
         user.setPassword(RandomStringUtils.insecure().nextAlphanumeric(60));
@@ -69,7 +72,9 @@ class UserServiceIT {
             .map(cacheName -> this.cacheManager.getCache(cacheName))
             .filter(Objects::nonNull)
             .forEach(Cache::clear);
-        userRepository.deleteAll();
+        userService.deleteUser(DEFAULT_LOGIN);
+        assertThat(userRepository.count()).isEqualTo(numberOfUsers);
+        numberOfUsers = null;
     }
 
     @Test
