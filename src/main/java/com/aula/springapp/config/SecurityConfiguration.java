@@ -37,36 +37,27 @@ public class SecurityConfiguration {
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(authz ->
                 // prettier-ignore
-                authz
-                    // LINHAS ADIOCIONADAS: 
-                    .requestMatchers("/api/cursos/**").permitAll()
-                    .requestMatchers("/api/disciplinas/**").permitAll()
-                    // -------------------
-                    // LINHAS RESTANTES (ALTERAR SE NECESSÁRIO)
-                    .requestMatchers("/api/**").authenticated()
-                    .requestMatchers("/v3/api-docs/**").permitAll()
-                    // LINHAS ADIOCIONADAS: 
-                    .requestMatchers("/swagger-ui/**").permitAll()
-                    .requestMatchers("/swagger-ui.html").permitAll()
-                    // ------------------
-                    // LINHAS RESTANTES 
-                    .requestMatchers("/management/health").permitAll()
-                    .requestMatchers(HttpMethod.POST, "/api/authenticate").permitAll()
-                    .requestMatchers(HttpMethod.GET, "/api/authenticate").permitAll()
-                    .requestMatchers("/api/register").permitAll()
-                    .requestMatchers("/api/activate").permitAll()
-                    .requestMatchers("/api/account/reset-password/init").permitAll()
-                    .requestMatchers("/api/account/reset-password/finish").permitAll()
-                    .requestMatchers("/api/admin/**").hasAuthority(AuthoritiesConstants.ADMIN)
-                    .requestMatchers("/api/**").authenticated()
-                    .requestMatchers("/v3/api-docs/**").hasAuthority(AuthoritiesConstants.ADMIN)
-                    .requestMatchers("/management/health").permitAll()
-                    .requestMatchers("/management/health/**").permitAll()
-                    .requestMatchers("/management/info").permitAll()
-                    .requestMatchers("/management/prometheus").permitAll()
-                    .requestMatchers("/management/**").hasAuthority(AuthoritiesConstants.ADMIN)
+            authz
+                .requestMatchers("/api/cursos/**").permitAll()
+                .requestMatchers("/api/disciplinas/**").permitAll()
+                .requestMatchers("/v3/api-docs/**").permitAll()
+                .requestMatchers("/swagger-ui/**").permitAll()
+                .requestMatchers("/swagger-ui.html").permitAll()
+                .requestMatchers("/management/health").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/authenticate").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/authenticate").permitAll()
+                .requestMatchers("/api/register").permitAll()
+                .requestMatchers("/api/activate").permitAll()
+                .requestMatchers("/api/account/reset-password/init").permitAll()
+                .requestMatchers("/api/account/reset-password/finish").permitAll()
+                .requestMatchers("/api/admin/**").hasAuthority(AuthoritiesConstants.ADMIN)
+                .requestMatchers("/api/**").authenticated()
+                .requestMatchers("/management/health/**").permitAll()
+                .requestMatchers("/management/info").permitAll()
+                .requestMatchers("/management/prometheus").permitAll()
+                .requestMatchers("/management/**").hasAuthority(AuthoritiesConstants.ADMIN)
             )
-            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                    .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .exceptionHandling(exceptions ->
                 exceptions
                     .authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint())
